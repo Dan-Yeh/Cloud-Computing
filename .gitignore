@@ -1,0 +1,8 @@
+##MACOS junk files/directories
+**/.DS_Store
+**/__MACOSX/*
+
+## for Nodejs projects to ensure that local environment variables, build related output and modules are not committed to the git server
+**/node_modules/
+**/npm-debug.log
+**/package-lock.json
