@@ -1,19 +1,18 @@
 // require express and other modules
-const express = require('express');
+const express = require("express");
 const app = express();
 // Express Body Parser
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Set Static File Directory
-app.use(express.static(__dirname + '/public'));
-
+app.use(express.static(__dirname + "/public"));
 
 /************
  * DATABASE *
  ************/
 
-const db = require('./models');
+const db = require("./models");
 
 /**********
  * ROUTES *
@@ -23,47 +22,53 @@ const db = require('./models');
  * HTML Endpoints
  */
 
-app.get('/', function homepage(req, res) {
-  res.sendFile(__dirname + '/views/index.html');
+app.get("/", function homepage(req, res) {
+  res.sendFile(__dirname + "/views/index.html");
 });
-
 
 /*
  * JSON API Endpoints
  */
 
-app.get('/api', (req, res) => {
+app.get("/api", (req, res) => {
   // TODO: Document all your api endpoints below as a simple hardcoded JSON object.
   res.json({
-    message: 'Welcome to my app api!',
-    documentationUrl: '', //leave this also blank for the first exercise
-    baseUrl: '', //leave this blank for the first exercise
+    message: "Welcome to my app api!",
+    documentationUrl: "", //leave this also blank for the first exercise
+    baseUrl: "", //leave this blank for the first exercise
     endpoints: [
-      {method: 'GET', path: '/api', description: 'Describes all available endpoints'},
-      {method: 'GET', path: '/api/profile', description: 'Data about me'},
-      {method: 'GET', path: '/api/books/', description: 'Get All books information'},
+      {
+        method: "GET",
+        path: "/api",
+        description: "Describes all available endpoints",
+      },
+      { method: "GET", path: "/api/profile", description: "Data about me" },
+      {
+        method: "GET",
+        path: "/api/books/",
+        description: "Get All books information",
+      },
       // TODO: Write other API end-points description here like above
-    ]
-  })
+    ],
+  });
 });
 // TODO:  Fill the values
-app.get('/api/profile', (req, res) => {
+app.get("/api/profile", (req, res) => {
   res.json({
-    'name': '',
-    'homeCountry': '',
-    'degreeProgram': '',//informatics or CSE.. etc
-    'email': '',
-    'deployedURLLink': '',//leave this blank for the first exercise
-    'apiDocumentationURL': '', //leave this also blank for the first exercise
-    'currentCity': '',
-    'hobbies': []
-
-  })
+    name: "Chen-Chen Yeh",
+    homeCountry: "Taiwan",
+    degreeProgram: "CSE", //informatics or CSE.. etc
+    email: "chenchen.yeh@tum.de",
+    deployedURLLink: "", //leave this blank for the first exercise
+    apiDocumentationURL: "", //leave this also blank for the first exercise
+    currentCity: "Munich",
+    hobbies: ["coding", "hiking"],
+  });
 });
 /*
  * Get All books information
  */
-app.get('/api/books/', (req, res) => {
+app.get("/api/books/", (req, res) => {
   /*
    * use the books model and query to mongo database to get all objects
    */
@@ -78,8 +83,7 @@ app.get('/api/books/', (req, res) => {
 /*
  * Add a book information into database
  */
-app.post('/api/books/', (req, res) => {
-
+app.post("/api/books/", (req, res) => {
   /*
    * New Book information in req.body
    */
@@ -88,17 +92,19 @@ app.post('/api/books/', (req, res) => {
    * TODO: use the books model and create a new object
    * with the information in req.body
    */
+  const nBook = new db.books(req.body);
+  nBook.save().catch((err) => console.log(err));
   /*
    * return the new book information object as json
    */
-  var newBook = {};
+  var newBook = { nBook };
   res.json(newBook);
 });
 
 /*
  * Update a book information based upon the specified ID
  */
-app.put('/api/books/:id', (req, res) => {
+app.put("/api/books/:id", (req, res) => {
   /*
    * Get the book ID and new information of book from the request parameters
    */
@@ -109,16 +115,17 @@ app.put('/api/books/:id', (req, res) => {
   /*
    * TODO: use the books model and find using the bookId and update the book information
    */
+  db.books.findByIdAndUpdate(bookId, bookNewData);
   /*
    * Send the updated book information as a JSON object
    */
-  var updatedBookInfo = {};
+  var updatedBookInfo = { };
   res.json(updatedBookInfo);
 });
 /*
  * Delete a book based upon the specified ID
  */
-app.delete('/api/books/:id', (req, res) => {
+app.delete("/api/books/:id", (req, res) => {
   /*
    * Get the book ID of book from the request parameters
    */
@@ -127,13 +134,13 @@ app.delete('/api/books/:id', (req, res) => {
    * TODO: use the books model and find using
    * the bookId and delete the book
    */
+  const dBook = db.books.findByIdAndDelete(bookId);
   /*
    * Send the deleted book information as a JSON object
    */
-  var deletedBook = {};
+  var deletedBook = { };
   res.json(deletedBook);
 });
-
 
 /**********
  * SERVER *
@@ -141,5 +148,5 @@ app.delete('/api/books/:id', (req, res) => {
 
 // listen on the port 3000
 app.listen(process.env.PORT || 80, () => {
-  console.log('Express server is up and running on http://localhost:80/');
+  console.log("Express server is up and running on http://localhost:80/");
 });
