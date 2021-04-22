@@ -49,6 +49,21 @@ app.get("/api", (req, res) => {
         description: "Get All books information",
       },
       // TODO: Write other API end-points description here like above
+      {
+        method: "POST",
+        path: "/api/books/",
+        description: "Add a book information into database",
+      },
+      {
+        method: "PUT",
+        path: "/api/books/:id",
+        description: "Update a book information",
+      },
+      {
+        method: "DELETE",
+        path: "/api/books/:id",
+        description: "Delet a book information",
+      },
     ],
   });
 });
@@ -120,7 +135,9 @@ app.put("/api/books/:id", async (req, res) => {
      * TODO: use the books model and find using the bookId and update the book information
      */
     // set new = true so that uNook is the updated information
-    const uBook = await db.books.findByIdAndUpdate(bookId, bookNewData, {new: true});
+    const uBook = await db.books.findByIdAndUpdate(bookId, bookNewData, {
+      new: true,
+    });
     /*
      * Send the updated book information as a JSON object
      */
