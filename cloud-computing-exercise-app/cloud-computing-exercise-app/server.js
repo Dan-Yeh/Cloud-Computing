@@ -83,63 +83,75 @@ app.get("/api/books/", (req, res) => {
 /*
  * Add a book information into database
  */
-app.post("/api/books/", (req, res) => {
-  /*
-   * New Book information in req.body
-   */
-  console.log(req.body);
-  /*
-   * TODO: use the books model and create a new object
-   * with the information in req.body
-   */
-  const nBook = new db.books(req.body);
-  nBook.save().catch((err) => console.log(err));
-  /*
-   * return the new book information object as json
-   */
-  var newBook = { nBook };
-  res.json(newBook);
+app.post("/api/books/", async (req, res) => {
+  try {
+    /*
+     * New Book information in req.body
+     */
+    console.log(req.body);
+    /*
+     * TODO: use the books model and create a new object
+     * with the information in req.body
+     */
+    const nBook = await db.books.create(req.body);
+    /*
+     * return the new book information object as json
+     */
+    var newBook = { nBook };
+    res.json(newBook);
+  } catch (e) {
+    console.error(e);
+  }
 });
 
 /*
  * Update a book information based upon the specified ID
  */
-app.put("/api/books/:id", (req, res) => {
-  /*
-   * Get the book ID and new information of book from the request parameters
-   */
-  const bookId = req.params.id;
-  const bookNewData = req.body;
-  console.log(`book ID = ${bookId} \n Book Data = ${bookNewData}`);
+app.put("/api/books/:id", async (req, res) => {
+  try {
+    /*
+     * Get the book ID and new information of book from the request parameters
+     */
+    const bookId = req.params.id;
+    const bookNewData = req.body;
+    console.log(`book ID = ${bookId} \n Book Data = ${bookNewData}`);
 
-  /*
-   * TODO: use the books model and find using the bookId and update the book information
-   */
-  db.books.findByIdAndUpdate(bookId, bookNewData);
-  /*
-   * Send the updated book information as a JSON object
-   */
-  var updatedBookInfo = { };
-  res.json(updatedBookInfo);
+    /*
+     * TODO: use the books model and find using the bookId and update the book information
+     */
+    // set new = true so that uNook is the updated information
+    const uBook = await db.books.findByIdAndUpdate(bookId, bookNewData, {new: true});
+    /*
+     * Send the updated book information as a JSON object
+     */
+    var updatedBookInfo = { uBook };
+    res.json(updatedBookInfo);
+  } catch (e) {
+    console.log(e);
+  }
 });
 /*
  * Delete a book based upon the specified ID
  */
-app.delete("/api/books/:id", (req, res) => {
-  /*
-   * Get the book ID of book from the request parameters
-   */
-  const bookId = req.params.id;
-  /*
-   * TODO: use the books model and find using
-   * the bookId and delete the book
-   */
-  const dBook = db.books.findByIdAndDelete(bookId);
-  /*
-   * Send the deleted book information as a JSON object
-   */
-  var deletedBook = { };
-  res.json(deletedBook);
+app.delete("/api/books/:id", async (req, res) => {
+  try {
+    /*
+     * Get the book ID of book from the request parameters
+     */
+    const bookId = req.params.id;
+    /*
+     * TODO: use the books model and find using
+     * the bookId and delete the book
+     */
+    const dBook = await db.books.findByIdAndDelete(bookId);
+    /*
+     * Send the deleted book information as a JSON object
+     */
+    var deletedBook = { dBook };
+    res.json(deletedBook);
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 /**********
