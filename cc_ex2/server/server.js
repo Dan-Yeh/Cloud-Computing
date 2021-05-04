@@ -45,6 +45,7 @@ app.get('/api', (req, res) => {
       {method: 'PUT', path: '/api/books/', description: 'Update a book information, based on id'},
       {method: 'DELETE', path: '/api/books/', description: 'Delete a book information, based on id'},
       // TODO: Write other API end-points description here like above
+      {method: 'GET', path: '/api/exercise2', description: 'send a message {group $ application deployed using docker} to user'},
     ]
   })
 });
@@ -143,6 +144,12 @@ app.delete('/api/books/:id', (req, res) => {
 /**********
  * SERVER *
  **********/
+app.get('/api/exercise2', (req, res) => {
+    /*
+     * return the message 'group 104 application deployed using docker to user'
+     */
+    res.send("group 104 application deployed using docker");
+});
 
 // listen on the port 3000
 app.listen(process.env.PORT || 3000, () => {

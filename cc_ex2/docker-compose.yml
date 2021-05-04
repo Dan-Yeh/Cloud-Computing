@@ -1,9 +1,8 @@
 version: '3'
 services:
   server:
-    build: ./server
-    image: HUB_ID/cloudcomputinggroup#:latest
-    container_name: cloudcomputinggroup#
+    image: yacometrue/cloudcomputinggroup104:latest
+    container_name: cloudcomputinggroup104
     depends_on:
       - "mongodb"
     environment:
@@ -11,6 +10,7 @@ services:
     ports:
       - "3000:3000"
     restart: always
+
   mongodb:
     image: mongo:latest
     container_name: "mongodb"
