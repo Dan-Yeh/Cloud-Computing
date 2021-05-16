@@ -1,7 +1,7 @@
 version: '3'
 services:
   server:
-    image: yacometrue/cloudcomputinggroup104:latest
+    image: shengchia/cloudcomputinggroup104
     container_name: cloudcomputinggroup104
     depends_on:
       - "mongodb"
