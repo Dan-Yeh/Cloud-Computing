@@ -8,5 +8,22 @@ module.exports = function (options) {
 
 
     //To DO: add the pattern functions and describe the logic inside the function
+    function productURL(msg, respond) {
+        if (msg.productId) {
+            const product = mockData.find(element => element.product_id == msg.productId);
+            respond(null, { result: product.product_url });
+        } else {
+            respond(null, { result: ''});
+        }
+    }
+
+    function productName(msg, respond) {
+        if (msg.productId) {
+            const product = mockData.find(element => element.product_id == msg.productId);
+            respond(null, { result: product.product_name });
+        } else {
+            respond(null, { result: ''});
+        }
+    }
 
 }
