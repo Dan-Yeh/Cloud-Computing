@@ -15,3 +15,6 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io -y
 # install docker-compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
+
+# open docker api port for testing
+sed -ie 's/^ExecStart=/usr/bin/dockerd.*$/& -H tcp://0.0.0.0:4243/g' /lib/systemd/system/docker.service
