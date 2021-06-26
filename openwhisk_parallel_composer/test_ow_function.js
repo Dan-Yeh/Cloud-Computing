@@ -18,7 +18,7 @@ function main(params) {
                 "ignore_certs": true
             }
         },
-        "name": "anshul",
+        "name": "chen-chen",
         "product_id": 2,
         "mongo_host_ip": "",
         "db": "ccs",
