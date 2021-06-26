@@ -1,0 +1,15 @@
+controller: 
+  replicaCount: 1
+whisk: 
+  ingress:
+    type: NodePort 
+    apiHostName: <cluster_ip>
+    apiHostPort: 31001
+k8s: 
+  persistence:
+    enabled: false 
+nginx:
+  httpsNodePort: 31001 
+invoker:
+  containerFactory: 
+    impl: "kubernetes"
